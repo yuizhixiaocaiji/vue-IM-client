@@ -8,3 +8,8 @@ export type Itype =
   | "modifycode"
   | "modify"
   | "modifySend";
+
+export type FormField = {
+  name: string;
+  password?: string;
+};

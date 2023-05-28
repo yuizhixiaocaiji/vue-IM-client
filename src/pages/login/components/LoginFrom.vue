@@ -64,12 +64,7 @@
 <script setup lang="ts">
 import { useToggle } from "@vueuse/core";
 import { reactive, ref, watchEffect } from "vue";
-import { Itype } from "../../../type/global";
-
-export type FormField = {
-  name: string;
-  password?: string;
-};
+import { FormField, Itype } from "../../../type/global";
 
 type IProps = {
   finish: (values?: FormField | string) => void;

@@ -17,12 +17,19 @@
 
 <script setup lang="ts">
 import login_bg from "@/assets/images/login_bg.png";
-import LoginFrom, { FormField } from "./components/LoginFrom.vue";
+import LoginFrom from "./components/LoginFrom.vue";
 import { ref, watchEffect } from "vue";
-import { Itype } from "../../type/global";
+import { FormField, Itype } from "../../type/global";
+import { getUserParams } from "../../services";
+import { useStore } from "vuex";
+import { SET_USER_INFO } from "@/store/modules/login";
 
-const finish = (values?: FormField | string) => {
-  console.log(values);
+const store = useStore();
+
+const finish = async (values?: FormField | string) => {
+  const data = await getUserParams(values);
+  store.dispatch(SET_USER_INFO, data);
+  console.log(store.state);
 };
 
 const type = ref<Itype>("login");
