@@ -23,13 +23,23 @@ import { FormField, Itype } from "../../type/global";
 import { getUserParams } from "../../services";
 import { useStore } from "vuex";
 import { SET_USER_INFO } from "@/store/modules/login";
+import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
 
 const store = useStore();
 
+const router = useRouter();
+
 const finish = async (values?: FormField | string) => {
-  const data = await getUserParams(values);
-  store.dispatch(SET_USER_INFO, data);
-  console.log(store.state);
+  try {
+    if (type.value === "login") {
+      const data = await getUserParams(values);
+      store.dispatch(SET_USER_INFO, data);
+      router.push("/home");
+    }
+  } catch (e: any) {
+    ElMessage.error(e);
+  }
 };
 
 const type = ref<Itype>("login");

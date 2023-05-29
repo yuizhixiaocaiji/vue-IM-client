@@ -28,8 +28,6 @@ const mutations = {
 
 const actions = {
   [SET_USER_INFO]({ commit }: { commit: Commit }, userInfo: UserInfo) {
-    console.log(userInfo, 1111);
-
     const newData: Status = {
       id: userInfo.ID,
       name: userInfo.name,

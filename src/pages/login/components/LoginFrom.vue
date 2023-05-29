@@ -24,10 +24,14 @@
           <el-input v-model="formLabelAlign.name" />
         </el-form-item>
         <el-form-item label="密码">
-          <el-input type="password" v-model="formLabelAlign.password" />
+          <el-input
+            type="password"
+            v-model="formLabelAlign.password"
+            show-password
+          />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">{{
+          <el-button type="primary" @click="onSubmit(type)">{{
             type === "login"
               ? "登录"
               : type === "register"
@@ -55,7 +59,7 @@
       </div>
       <div v-if="type === 'login'" class="access_bottom">
         <span>忘记密码</span>
-        <span>立即注册</span>
+        <span @click="finish('register')">立即注册</span>
       </div>
     </div>
   </el-card>
@@ -92,11 +96,12 @@ watchEffect(() => {
   setBack(backShow.includes(type!));
 });
 
-const onSubmit = () => {
-  if (checkSts) {
+function onSubmit(type?: Itype) {
+  if (!checkSts) return;
+  if (type === "login") {
     finish(formLabelAlign);
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
