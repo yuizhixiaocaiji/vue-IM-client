@@ -4,7 +4,7 @@
     class="login_from"
     :body-style="{ padding: '47px 44px' }"
   >
-    <div v-if="backSts" class="back-button">
+    <div v-if="backSts" class="back-button" @click="$emit('back')">
       <el-icon><ArrowLeft /></el-icon>
       <span>返回</span>
     </div>
@@ -27,6 +27,13 @@
           <el-input
             type="password"
             v-model="formLabelAlign.password"
+            show-password
+          />
+        </el-form-item>
+        <el-form-item label="再次输入密码" v-if="type === 'register'">
+          <el-input
+            type="password"
+            v-model="formLabelAlign.checkPass"
             show-password
           />
         </el-form-item>
@@ -59,7 +66,7 @@
       </div>
       <div v-if="type === 'login'" class="access_bottom">
         <span>忘记密码</span>
-        <span @click="finish('register')">立即注册</span>
+        <span @click="$emit('finish', 'register')">立即注册</span>
       </div>
     </div>
   </el-card>
@@ -70,36 +77,31 @@ import { useToggle } from "@vueuse/core";
 import { reactive, ref, watchEffect } from "vue";
 import { FormField, Itype } from "../../../type/global";
 
-type IProps = {
-  finish: (values?: FormField | string) => void;
-  type: Itype | undefined;
-};
-
-const props = defineProps<IProps>();
-
-const { type, finish } = props;
+const props = defineProps(["type"]);
+const emit = defineEmits(["finish", "back"]);
 
 const [btmSts, setBtm] = useToggle();
 const [backSts, setBack] = useToggle();
 
 const checkSts = ref<boolean>(true);
 
-const formLabelAlign = reactive({
+const formLabelAlign = reactive<FormField>({
   name: "",
   password: "",
+  checkPass: "",
 });
 
 watchEffect(() => {
   const btmShow = ["login", "register"];
   const backShow = ["register", "vericode", "modifySend", "modifycode"];
-  setBtm(btmShow.includes(type!));
-  setBack(backShow.includes(type!));
+  setBtm(btmShow.includes(props.type!));
+  setBack(backShow.includes(props.type!));
 });
 
 function onSubmit(type?: Itype) {
   if (!checkSts) return;
   if (type === "login") {
-    finish(formLabelAlign);
+    emit("finish", formLabelAlign);
   }
 }
 </script>
