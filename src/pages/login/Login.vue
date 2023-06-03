@@ -20,7 +20,7 @@ import login_bg from "@/assets/images/login_bg.png";
 import LoginFrom from "./components/LoginFrom.vue";
 import { ref } from "vue";
 import { FormField, Itype } from "../../type/global";
-import { getUserParams } from "../../services";
+import { getUserParams, registerUser } from "../../services";
 import { useStore } from "vuex";
 import { SET_USER_INFO } from "@/store/modules/login";
 import { useRouter } from "vue-router";
@@ -44,6 +44,13 @@ const finish = async (values?: FormField | string) => {
         store.dispatch(SET_USER_INFO, data);
         router.push("/home");
       }
+    } else if (current.value === "register") {
+      await registerUser(values);
+      ElMessage({
+        message: "恭喜你，注册成功",
+        type: "success",
+      });
+      back();
     }
   } catch (e: any) {
     ElMessage.error(e);

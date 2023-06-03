@@ -16,3 +16,19 @@ export const getUserParams: Api["getUserParams"] = async (values) => {
       });
   });
 };
+
+export const registerUser: Api["registerUser"] = async (values) => {
+  return new Promise((resolve, reject) => {
+    http({
+      method: "get",
+      url: "/api/user/createUser",
+      params: JSON.parse(JSON.stringify(values)),
+    })
+      .then((data: any) => {
+        resolve(data);
+      })
+      .catch((err: Error) => {
+        reject(err);
+      });
+  });
+};

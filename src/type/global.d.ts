@@ -12,5 +12,5 @@ export type Itype =
 export type FormField = {
   name: string;
   password?: string;
-  checkPass?: string;
+  rePassword?: string;
 };

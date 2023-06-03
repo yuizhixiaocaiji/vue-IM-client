@@ -33,7 +33,7 @@
         <el-form-item label="再次输入密码" v-if="type === 'register'">
           <el-input
             type="password"
-            v-model="formLabelAlign.checkPass"
+            v-model="formLabelAlign.rePassword"
             show-password
           />
         </el-form-item>
@@ -88,7 +88,7 @@ const checkSts = ref<boolean>(true);
 const formLabelAlign = reactive<FormField>({
   name: "",
   password: "",
-  checkPass: "",
+  rePassword: "",
 });
 
 watchEffect(() => {
@@ -100,7 +100,7 @@ watchEffect(() => {
 
 function onSubmit(type?: Itype) {
   if (!checkSts) return;
-  if (type === "login") {
+  if (type === "login" || type === "register") {
     emit("finish", formLabelAlign);
   }
 }

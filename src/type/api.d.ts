@@ -2,6 +2,7 @@ import { FormField } from "./global";
 
 export type Api = {
   getUserParams: (values?: FormField | string) => Promise<UserInfo>;
+  registerUser: (values?: FormField | string) => Promise<UserInfo>;
 };
 
 export interface UserInfo {
