@@ -5,8 +5,13 @@
         <SearchBar></SearchBar>
       </el-header>
       <el-container>
-        <el-aside width="400px">Aside</el-aside>
-        <el-main>Main</el-main>
+        <el-aside width="400px">
+          <UserAsideBar></UserAsideBar>
+          <UserList></UserList>
+        </el-aside>
+        <el-main>
+          <MessageShower></MessageShower>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -14,6 +19,9 @@
 
 <script setup lang="ts">
 import SearchBar from "../../components/SearchBar.vue";
+import UserAsideBar from "./components/UserAsideBar.vue";
+import UserList from "./message/UserList.vue";
+import MessageShower from "./message/MessageShower.vue";
 </script>
 
 <style lang="less" scoped>
