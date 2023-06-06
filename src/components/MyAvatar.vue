@@ -1,7 +1,7 @@
 <template>
   <el-avatar
     shape="square"
-    fit="fit"
+    fit="cover"
     :src="mySrc"
     :style="{ minWidth: `${props.size ?? 42}px` }"
   />

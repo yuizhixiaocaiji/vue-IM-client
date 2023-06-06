@@ -5,23 +5,32 @@
         <SearchBar></SearchBar>
       </el-header>
       <el-container>
-        <el-aside width="400px">
-          <UserAsideBar></UserAsideBar>
-          <UserList></UserList>
-        </el-aside>
-        <el-main>
-          <MessageShower></MessageShower>
-        </el-main>
+        <UserAsideBar
+          :classObjectName="classObjectName"
+          @changeMenu="changeMenu"
+        ></UserAsideBar>
+        <router-view></router-view>
       </el-container>
     </el-container>
   </div>
 </template>
 
 <script setup lang="ts">
-import SearchBar from "../../components/SearchBar.vue";
 import UserAsideBar from "./components/UserAsideBar.vue";
-import UserList from "./message/UserList.vue";
-import MessageShower from "./message/MessageShower.vue";
+import SearchBar from "../../components/SearchBar.vue";
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+
+const router = useRouter();
+
+const classObjectName = ref("message");
+
+classObjectName.value = <string>router.currentRoute.value.name;
+
+function changeMenu(menuName) {
+  classObjectName.value = menuName;
+  router.push(`/home/${classObjectName.value}`);
+}
 </script>
 
 <style lang="less" scoped>
@@ -34,9 +43,5 @@ import MessageShower from "./message/MessageShower.vue";
   align-items: center;
   justify-content: center;
   background: #438be5;
-}
-
-.el-aside {
-  background: pink;
 }
 </style>

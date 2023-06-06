@@ -1,6 +1,8 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import Login from "../pages/login/Login.vue";
 import Home from "../pages/home/Home.vue";
+import MessageHolder from "@/pages/home/message/MessageHolder.vue";
+import ContactsHolder from "@/pages/home/contacts/ContactsHolder.vue";
 
 const routes = [
   {
@@ -10,13 +12,29 @@ const routes = [
   },
   {
     path: "/home",
-    name: "Home",
     component: Home,
+    children: [
+      {
+        path: "",
+        name: "message",
+        component: MessageHolder,
+      },
+      {
+        path: "message",
+        name: "message",
+        component: MessageHolder,
+      },
+      {
+        path: "contacts",
+        name: "contacts",
+        component: ContactsHolder,
+      },
+    ],
   },
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 
