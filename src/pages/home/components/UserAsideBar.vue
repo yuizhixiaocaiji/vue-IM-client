@@ -16,7 +16,8 @@
 
 <script setup>
 import MyAvatar from "@/components/MyAvatar.vue";
-import { ref, computed, watch } from "vue";
+import { computed } from "vue";
+import {Comment, UserFilled} from "@element-plus/icons-vue";
 
 const props = defineProps(["classObjectName"]);
 

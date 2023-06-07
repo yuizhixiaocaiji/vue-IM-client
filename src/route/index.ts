@@ -16,7 +16,7 @@ const routes = [
     children: [
       {
         path: "",
-        name: "message",
+        name: "default",
         component: MessageHolder,
       },
       {

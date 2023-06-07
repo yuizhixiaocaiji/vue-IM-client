@@ -19,13 +19,20 @@
 import UserAsideBar from "./components/UserAsideBar.vue";
 import SearchBar from "../../components/SearchBar.vue";
 import { useRouter } from "vue-router";
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 
 const router = useRouter();
 
 const classObjectName = ref("message");
 
-classObjectName.value = <string>router.currentRoute.value.name;
+onMounted(() => {
+  console.log(router.currentRoute.value.name)
+  if(router.currentRoute.value.name === 'default'){
+    classObjectName.value = 'message'
+  }else{
+    classObjectName.value = <string>router.currentRoute.value.name
+  }
+})
 
 function changeMenu(menuName) {
   classObjectName.value = menuName;

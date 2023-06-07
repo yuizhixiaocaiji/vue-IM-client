@@ -3,6 +3,7 @@
     shadow="always"
     class="login_from"
     :body-style="{ padding: '47px 44px' }"
+    v-loading="$props.loading"
   >
     <div v-if="backSts" class="back-button" @click="$emit('back')">
       <el-icon><ArrowLeft /></el-icon>
@@ -75,9 +76,10 @@
 <script setup lang="ts">
 import { useToggle } from "@vueuse/core";
 import { reactive, ref, watchEffect } from "vue";
-import { FormField, Itype } from "../../../type/global";
+import { FormField, Itype } from "@/type/global";
+import {ArrowLeft} from "@element-plus/icons-vue";
 
-const props = defineProps(["type"]);
+const props = defineProps(["type","loading"]);
 const emit = defineEmits(["finish", "back"]);
 
 const [btmSts, setBtm] = useToggle();

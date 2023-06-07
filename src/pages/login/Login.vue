@@ -8,7 +8,7 @@
           <span class="sub_title">海内存知己，天涯若比邻</span>
           <img :src="login_bg" alt="" />
         </div>
-        <LoginFrom :type="current" @finish="finish" @back="back"></LoginFrom>
+        <LoginFrom :loading="loading" :type="current" @finish="finish" @back="back"></LoginFrom>
       </div>
     </div>
     <div class="login_bottom"></div>
@@ -19,8 +19,8 @@
 import login_bg from "@/assets/images/login_bg.png";
 import LoginFrom from "./components/LoginFrom.vue";
 import { ref } from "vue";
-import { FormField, Itype } from "../../type/global";
-import { getUserParams, registerUser } from "../../services";
+import { FormField, Itype } from "@/type/global";
+import { getUserParams, registerUser } from "@/services";
 import { useStore } from "vuex";
 import { SET_USER_INFO } from "@/store/modules/login";
 import { useRouter } from "vue-router";
@@ -31,6 +31,8 @@ const store = useStore();
 
 const router = useRouter();
 
+const loading = ref(false)
+
 const { current, back } = useHistoryTravel<Itype>("login");
 
 const finish = async (values?: FormField | string) => {
@@ -40,12 +42,16 @@ const finish = async (values?: FormField | string) => {
       if (values === "register" || values === "modifySend") {
         toggle(values);
       } else {
+        loading.value = true
         const data = await getUserParams(values);
-        store.dispatch(SET_USER_INFO, data);
-        router.push("/home");
+        await store.dispatch(SET_USER_INFO, data);
+        loading.value = false
+        await router.push("/home");
       }
     } else if (current.value === "register") {
+      loading.value = true
       await registerUser(values);
+      loading.value = false
       ElMessage({
         message: "恭喜你，注册成功",
         type: "success",
