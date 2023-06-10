@@ -1,5 +1,11 @@
-<template></template>
+<template>
+  <slot></slot>
+</template>
 
-<script setup></script>
+<script setup>
 
-<style lang="less" scoped></style>
+</script>
+
+<style lang="less" scoped>
+
+</style>

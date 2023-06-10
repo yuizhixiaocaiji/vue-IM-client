@@ -1,6 +1,10 @@
 <template>
   <el-aside width="340px">
-    <UserList></UserList>
+    <UserList>
+      <ul class="el-user-list" >
+
+      </ul>
+    </UserList>
   </el-aside>
   <el-main>
     <MessageShower></MessageShower>
@@ -8,13 +12,10 @@
 </template>
 
 <script setup>
-import UserAsideBar from "../components/UserAsideBar.vue";
 import UserList from "./UserList.vue";
 import MessageShower from "./MessageShower.vue";
 </script>
 
 <style lang="less" scoped>
-.el-aside {
-  border-right: 1px solid #eee;
-}
+
 </style>
