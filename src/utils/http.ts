@@ -1,14 +1,20 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import {AXIOS_TIMEOUT} from "@/config";
 
-axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+const request = axios.create({
+  timeout: AXIOS_TIMEOUT,
+})
+
+request.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   return config;
 });
 
-axios.interceptors.response.use((res: AxiosResponse) => {
+request.interceptors.response.use((res: AxiosResponse) => {
   if (res.data.code === -1) {
     return Promise.reject(res.data.message);
   }
-  return res.data.data;
+
+  return res.data.data ? res.data.data : res.data;
 });
 
-export default axios;
+export default request;

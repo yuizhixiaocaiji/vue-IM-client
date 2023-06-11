@@ -11,8 +11,8 @@ interface Status {
 
 const state: Status = {
   id: 0,
-  name: localStorage.getItem("name"),
-  token: localStorage.getItem("token"),
+  name: '',
+  token: '',
 };
 
 const mutations = {
@@ -21,8 +21,6 @@ const mutations = {
     state.id = id;
     state.name = name;
     state.token = token;
-    localStorage.setItem("token", token as string);
-    localStorage.setItem("name", name as string);
   },
 };
 
@@ -38,6 +36,7 @@ const actions = {
 };
 
 export default {
+  namespaced: true,
   state,
   mutations,
   actions,

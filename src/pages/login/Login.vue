@@ -44,7 +44,7 @@ const finish = async (values?: FormField | string) => {
       } else {
         loading.value = true
         const data = await getUserParams(values);
-        await store.dispatch(SET_USER_INFO, data);
+        await store.dispatch("login/" + SET_USER_INFO, data);
         loading.value = false
         await router.push("/home");
       }

@@ -3,7 +3,7 @@
     shape="square"
     fit="cover"
     :src="mySrc"
-    :style="{ minWidth: `${props.size ?? 42}px` }"
+    :style="{ minHeight: `${props.size ?? 42}px`, minWidth: `${props.size - 1 ?? 41}px`}"
   />
 </template>
 
