@@ -2,7 +2,7 @@
   <el-aside width="340px">
     <UserList>
       <ul class="el-user-list" >
-        <li class="user-list-one" v-for="row in store.state.friendList.rows" :key="row.ID">
+        <li class="user-list-one" v-for="row in store.state.friendList.rows" :key="row.ID" @click="openMessagePlayer(row)" :class="userMessage.userId === row.ID ? 'active': ''">
           <MyAvatar src="ic_avatar_03"></MyAvatar>
           <div class="list-one-message">
             <span class="one-message-name">{{row.name}}</span>
@@ -14,7 +14,7 @@
     </UserList>
   </el-aside>
   <el-main>
-    <MessageShower></MessageShower>
+    <MessageShower :user-message="userMessage"></MessageShower>
   </el-main>
 </template>
 
@@ -23,11 +23,26 @@ import UserList from "./UserList.vue";
 import MessageShower from "./MessageShower.vue";
 import {useStore} from "vuex";
 import MyAvatar from "@/components/MyAvatar.vue";
+import {reactive} from "vue";
 
 const store = useStore()
+
+const userMessage = reactive({
+  userName: '',
+  userId: 0
+})//当前操作的user
+
+const openMessagePlayer = (row) => {
+  userMessage.userName = row.name
+  userMessage.userId = row.ID
+}
 </script>
 
 <style lang="less" scoped>
+  .el-main{
+    padding: 0;
+  }
+
   .list-one-message{
     height: 100%;
     flex-grow: 1;
@@ -52,7 +67,7 @@ const store = useStore()
   .list-one-date{
     position: absolute;
     top: 10px;
-    right: 0;
+    right: 10px;
     font-size: 6px;
     color: #666;
   }

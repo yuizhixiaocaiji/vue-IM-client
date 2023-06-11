@@ -1,14 +1,31 @@
 <template>
-  <div class="content_bg">
+  <section class="content_bg" v-if="userMessage.userId === 0">
     <div class="content_bg_title">创建群聊</div>
     <div class="content_bg_sub">创建群组，立即开启在线办公</div>
     <img :src="home_bg" alt="">
     <el-button class="content_bg_btn" type="primary">立即创建</el-button>
-  </div>
+  </section>
+
+  <section v-if="userMessage.userId !== 0">
+    <MessagePlayerHeader></MessagePlayerHeader>
+    <MessagePlayerContent></MessagePlayerContent>
+    <MessagePlayerFooter></MessagePlayerFooter>
+  </section>
 </template>
 
 <script setup>
 import home_bg from "@/assets/images/home_bg.png";
+import {watch} from "vue";
+import MessagePlayerHeader from "@/pages/home/message/compnents/MessagePlayerHeader.vue";
+import MessagePlayerContent from "@/pages/home/message/compnents/MessagePlayerContent.vue";
+import MessagePlayerFooter from "@/pages/home/message/compnents/MessagePlayerFooter.vue";
+
+const props = defineProps(["userMessage"])
+
+watch(props.userMessage ,(newValue)=> {
+  console.log(newValue)
+})
+
 </script>
 
 <style lang="less" scoped>

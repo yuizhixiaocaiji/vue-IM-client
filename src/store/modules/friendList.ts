@@ -3,7 +3,7 @@ import {Commit} from "vuex/types/index.js";
 
 export const SET_USER_FRIENDS: string = "SET_USER_FRIENDS";
 
-interface Status{
+export interface Status{
     rows: Rows[]
 }
 
