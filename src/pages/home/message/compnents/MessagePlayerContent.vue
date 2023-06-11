@@ -1,6 +1,6 @@
 <template>
   <el-main>
-    我来组成身体
+
   </el-main>
 </template>
 

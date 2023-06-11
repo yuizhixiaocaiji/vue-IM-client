@@ -1,6 +1,7 @@
 <template>
   <el-footer>
     <section class="el-footer-icon">
+      <el-icon :size="20" color="#666"><CirclePlus /></el-icon>
       <el-icon :size="20" color="#666"><Picture /></el-icon>
       <el-icon :size="20" color="#666"><Film /></el-icon>
       <el-icon :size="24" color="#666"><Postcard /></el-icon>
@@ -23,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import {Film, FolderOpened, Microphone, Postcard} from "@element-plus/icons-vue";
+import {CirclePlus, Film, FolderOpened, Microphone, Postcard} from "@element-plus/icons-vue";
 import {ref} from "vue";
 
 const textarea = ref('')
@@ -39,6 +40,7 @@ const textarea = ref('')
     &-icon{
       display: flex;
       align-items: center;
+      margin-bottom: 5px;
 
       .el-icon{
         margin-right: 10px;
@@ -51,7 +53,7 @@ const textarea = ref('')
     }
 
     &-button{
-      padding-bottom: 10px;
+      padding-bottom: 8px;
       display: flex;
       justify-content: flex-end;
 
