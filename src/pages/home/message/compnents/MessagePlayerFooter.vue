@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <el-footer>
     我来组成底部
-  </div>
+  </el-footer>
 </template>
 
 <script setup lang="ts">

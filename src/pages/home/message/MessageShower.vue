@@ -6,11 +6,11 @@
     <el-button class="content_bg_btn" type="primary">立即创建</el-button>
   </section>
 
-  <section v-if="userMessage.userId !== 0">
-    <MessagePlayerHeader></MessagePlayerHeader>
+  <el-container v-if="userMessage.userId !== 0">
+    <MessagePlayerHeader :name="userMessage.userName"></MessagePlayerHeader>
     <MessagePlayerContent></MessagePlayerContent>
     <MessagePlayerFooter></MessagePlayerFooter>
-  </section>
+  </el-container>
 </template>
 
 <script setup>
@@ -53,5 +53,11 @@ watch(props.userMessage ,(newValue)=> {
     width: 120px;
     border-radius: 6px !important;
   }
+}
+
+.el-container{
+  height:100%;
+  display: flex;
+  flex-direction: column;
 }
 </style>
