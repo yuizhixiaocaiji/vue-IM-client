@@ -19,9 +19,9 @@
 import UserAsideBar from "./components/UserAsideBar.vue";
 import SearchBar from "../../components/SearchBar.vue";
 import { useRouter } from "vue-router";
-import { onMounted, ref} from "vue";
+import {onMounted, ref, watchEffect} from "vue";
 import { getIMWsUrl} from "@/config";
-import {Ws} from "@/utils";
+import {EventBus, Ws} from "@/utils";
 import { useStore} from "vuex";
 import {fetchUserFriends} from "@/services";
 import {SET_USER_FRIENDS} from "@/store/modules/friendList.ts";
@@ -34,6 +34,8 @@ const classObjectName = ref("message");
 
 let ws: any= null
 
+const bus = new EventBus();
+
 onMounted(() => {
   if(router.currentRoute.value.name === 'default'){
     classObjectName.value = 'message'
@@ -42,6 +44,10 @@ onMounted(() => {
   }
   initWebsocket()
   fetchParams()
+})
+
+bus.on('sendMsg',(msg) => {
+  ws.send(JSON.stringify(msg))
 })
 
 function changeMenu(menuName) {
@@ -55,13 +61,6 @@ function changeMenu(menuName) {
 const initWebsocket = async () => {
   const wsUrl = getIMWsUrl()
   ws = await Ws.create(wsUrl + "/user/sendUserMsg?id="+store.state.login.id + "&token=" + store.state.login.token)
-
-  if(ws){
-    // ws.sendMsg({
-    //   mode: 'MESSAGE',
-    //   msg: 'Hello'
-    // })
-  }
 }
 
 /**

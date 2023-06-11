@@ -18,16 +18,48 @@
       />
     </section>
     <section class="el-footer-button">
-      <el-button :disabled="textarea===''">发送</el-button>
+      <el-button :disabled="textarea===''" @click="sendMsg">发送</el-button>
     </section>
   </el-footer>
 </template>
 
 <script setup lang="ts">
 import {CirclePlus, Film, FolderOpened, Microphone, Postcard} from "@element-plus/icons-vue";
-import {ref} from "vue";
+import {reactive, ref} from "vue";
+import {UserMsg} from "@/type/global";
+import {useStore} from "vuex";
+import {ADD_USER_MESSAGE} from "@/store/modules/userMsg.ts";
+import {EventBus} from "@/utils";
+
+const bus = new EventBus()
+
+const store = useStore()
+
+const props = defineProps(["userId"])
 
 const textarea = ref('')
+
+let msg = reactive({})
+
+const sendMsg = () => {
+  msg = createMsgContext()
+  store.dispatch("userMsg/" + ADD_USER_MESSAGE, msg)
+  bus.emit('sendMsg', msg)
+  textarea.value = ''
+}
+
+const createMsgContext = () => {
+  const msg: UserMsg= {
+    id: 1,
+    userId: store.state.login.id,
+    dstId: props.userId ,
+    cmd: 10,
+    media: 1,
+    content: textarea.value
+  }
+
+  return msg
+}
 </script>
 
 <style lang="less" scoped>

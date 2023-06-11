@@ -14,3 +14,12 @@ export type FormField = {
   password?: string;
   rePassword?: string;
 };
+
+export interface UserMsg{
+  id: number //消息id
+  userId: number//用户id
+  dstId:number//发送用户id
+  cmd: number
+  media: number
+  content: string//发送的消息
+}
