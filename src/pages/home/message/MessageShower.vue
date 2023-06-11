@@ -9,7 +9,7 @@
   <el-container v-if="userMessage.userId !== 0">
     <MessagePlayerHeader :name="userMessage.userName"></MessagePlayerHeader>
     <MessagePlayerContent></MessagePlayerContent>
-    <MessagePlayerFooter></MessagePlayerFooter>
+    <MessagePlayerFooter ></MessagePlayerFooter>
   </el-container>
 </template>
 
