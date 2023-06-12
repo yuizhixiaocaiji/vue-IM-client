@@ -8,7 +8,7 @@
 
   <el-container v-if="userMessage.userId !== 0">
     <MessagePlayerHeader :name="userMessage.userName"></MessagePlayerHeader>
-    <MessagePlayerContent></MessagePlayerContent>
+    <MessagePlayerContent :userToInfo="userMessage"></MessagePlayerContent>
     <MessagePlayerFooter :userId="userMessage.userId"></MessagePlayerFooter>
   </el-container>
 </template>
@@ -23,7 +23,7 @@ import MessagePlayerFooter from "@/pages/home/message/compnents/MessagePlayerFoo
 const props = defineProps(["userMessage"])
 
 watch(props.userMessage ,(newValue)=> {
-  console.log(newValue)
+
 })
 
 </script>

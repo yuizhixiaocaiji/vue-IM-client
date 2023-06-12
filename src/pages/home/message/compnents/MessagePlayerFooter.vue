@@ -50,7 +50,7 @@ const sendMsg = () => {
 
 const createMsgContext = () => {
   const msg: UserMsg= {
-    id: 1,
+    id: store.state.userMsg.userMsg.length + 1,
     userId: store.state.login.id,
     dstId: props.userId ,
     cmd: 10,
