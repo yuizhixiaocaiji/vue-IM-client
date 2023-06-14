@@ -23,3 +23,11 @@ export interface UserMsg{
   media: number
   content: string//发送的消息
 }
+
+export interface SendMsg{
+  TargetId: number
+  Type: number
+  userId: number
+  Media:number
+  Content: string
+}

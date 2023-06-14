@@ -1,10 +1,10 @@
 <template>
   <div class="common-layout">
-    <el-container>
+    <el-container class="common-layout-content">
       <el-header height="42px">
         <SearchBar></SearchBar>
       </el-header>
-      <el-container>
+      <el-container class="layout-content-body">
         <UserAsideBar
           :classObjectName="classObjectName"
           @changeMenu="changeMenu"
@@ -25,6 +25,7 @@ import {EventBus, Ws} from "@/utils";
 import { useStore} from "vuex";
 import {fetchUserFriends} from "@/services";
 import {SET_USER_FRIENDS} from "@/store/modules/friendList.ts";
+import {SendMsg, UserMsg} from "@/type/global";
 
 const router = useRouter();
 
@@ -46,8 +47,15 @@ onMounted(() => {
   fetchParams()
 })
 
-bus.on('sendMsg',(msg) => {
-  ws.send(JSON.stringify(msg))
+bus.on('sendMsg',(msg: UserMsg) => {
+  const sendMsg: SendMsg = {
+    TargetId: msg.dstId,
+    userId: msg.userId,
+    Type: 1,
+    Media: msg.media,
+    Content: msg.content
+  }
+  ws.sendMsg(sendMsg)
 })
 
 function changeMenu(menuName) {
@@ -60,7 +68,7 @@ function changeMenu(menuName) {
  */
 const initWebsocket = async () => {
   const wsUrl = getIMWsUrl()
-  ws = await Ws.create(wsUrl + "/user/sendUserMsg?id="+store.state.login.id + "&token=" + store.state.login.token)
+  ws = await Ws.create(wsUrl + "/chat?id="+store.state.login.id + "&token=" + store.state.login.token)
 }
 
 /**
@@ -78,8 +86,12 @@ const fetchParams = async () => {
 </script>
 
 <style lang="less" scoped>
-.el-container {
+.common-layout-content {
   height: 100vh;
+
+  .layout-content-body{
+    overflow-y: auto;
+  }
 }
 
 .el-header {

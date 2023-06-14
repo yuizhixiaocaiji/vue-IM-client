@@ -1,10 +1,12 @@
+import {SendMsg} from "@/type/global";
+
 let heartBeatTimeer: any = null
 let reconnectingTimer: any = null
 
-const WS_MODE = {
-    MESSAGE: "MESSAGE",
-    HEART_BEAT: "HEART_BEAT",
-}
+// const WS_MODE = {
+//     MESSAGE: "MESSAGE",
+//     HEART_BEAT: "HEART_BEAT",
+// }
 
 class Ws extends WebSocket{
     connectedStatus: boolean
@@ -32,7 +34,7 @@ class Ws extends WebSocket{
     handleOpen(){
         console.log('---Client is connected---')
         this.connectedStatus = true
-        this.startHeartBeat()
+        // this.startHeartBeat()
     }
 
     handleClose(){
@@ -59,7 +61,7 @@ class Ws extends WebSocket{
     }
 
     async handleMessage(data) {
-        console.log(data.data)
+        console.log(data)
         // switch (mode){
         //     case WS_MODE.HEART_BEAT:
         //         this.connectedStatus = true
@@ -74,13 +76,13 @@ class Ws extends WebSocket{
     }
 
     startHeartBeat(){
-        heartBeatTimeer = setInterval(() => {
-            this.sendMsg({
-                mode: WS_MODE.HEART_BEAT,
-                msg: "HEART_BEAT"
-            })
-            // this.waitForResponse()
-        }, 4000)
+        // heartBeatTimeer = setInterval(() => {
+        //     this.sendMsg({
+        //         mode: WS_MODE.HEART_BEAT,
+        //         msg: "HEART_BEAT"
+        //     })
+        //     // this.waitForResponse()
+        // }, 4000)
     }
 
     reconnect(){
@@ -107,7 +109,7 @@ class Ws extends WebSocket{
         }, 2000)
     }
 
-    sendMsg(data){
+    sendMsg(data: SendMsg){
         return this.send(JSON.stringify(data))
     }
 
