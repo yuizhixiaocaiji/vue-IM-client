@@ -19,13 +19,15 @@
 import UserAsideBar from "./components/UserAsideBar.vue";
 import SearchBar from "../../components/SearchBar.vue";
 import { useRouter } from "vue-router";
-import {onMounted, ref} from "vue";
+import {nextTick, onMounted, ref} from "vue";
 import { getIMWsUrl} from "@/config";
 import {EventBus, Ws} from "@/utils";
 import { useStore} from "vuex";
 import {fetchUserFriends} from "@/services";
 import {SET_USER_FRIENDS} from "@/store/modules/friendList.ts";
 import {SendMsg, UserMsg} from "@/type/global";
+import {onUnmounted} from "vue-demi";
+import {ADD_USER_MESSAGE} from "@/store/modules/userMsg.ts";
 
 const router = useRouter();
 
@@ -47,6 +49,9 @@ onMounted(() => {
   fetchParams()
 })
 
+/**
+ * 监听消息发送的事件
+ */
 bus.on('sendMsg',(msg: UserMsg) => {
   const sendMsg: SendMsg = {
     TargetId: msg.dstId,
@@ -56,6 +61,20 @@ bus.on('sendMsg',(msg: UserMsg) => {
     Content: msg.content
   }
   ws.sendMsg(sendMsg)
+})
+
+/**
+ * 监听消息接收的事件
+ */
+bus.on('socketMsg',(msg: SendMsg) => {
+  const recvMsg:UserMsg = {
+    id: store.state.userMsg.userMsg.length + 1,
+    userId: msg.userId,
+    dstId: msg.TargetId,
+    media: msg.Media,
+    content: msg.Content
+  }
+  store.dispatch("userMsg/" + ADD_USER_MESSAGE, recvMsg)
 })
 
 function changeMenu(menuName) {
@@ -68,7 +87,7 @@ function changeMenu(menuName) {
  */
 const initWebsocket = async () => {
   const wsUrl = getIMWsUrl()
-  ws = await Ws.create(wsUrl + "/chat?id="+store.state.login.id + "&token=" + store.state.login.token)
+  ws = await Ws.create(wsUrl + "/chat?userId="+store.state.login.id + "&token=" + store.state.login.token)
 }
 
 /**
@@ -83,6 +102,14 @@ const fetchParams = async () => {
   const { Rows } = data
   await store.dispatch("friendList/" + SET_USER_FRIENDS, Rows)
 }
+
+/**
+ * 删除监听事件
+ */
+
+onUnmounted(() => {
+
+})
 </script>
 
 <style lang="less" scoped>

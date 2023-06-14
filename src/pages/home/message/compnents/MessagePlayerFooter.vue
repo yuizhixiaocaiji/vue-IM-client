@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import {CirclePlus, Film, FolderOpened, Microphone, Postcard} from "@element-plus/icons-vue";
-import {reactive, ref} from "vue";
+import {nextTick, reactive, ref} from "vue";
 import {UserMsg} from "@/type/global";
 import {useStore} from "vuex";
 import {ADD_USER_MESSAGE} from "@/store/modules/userMsg.ts";
@@ -53,7 +53,6 @@ const createMsgContext = () => {
     id: store.state.userMsg.userMsg.length + 1,
     userId: store.state.login.id,
     dstId: props.userId ,
-    cmd: 10,
     media: 1,
     content: textarea.value
   }

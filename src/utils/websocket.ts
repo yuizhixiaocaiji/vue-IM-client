@@ -1,4 +1,5 @@
 import {SendMsg} from "@/type/global";
+import {EventBus} from "@/utils/index.ts";
 
 let heartBeatTimeer: any = null
 let reconnectingTimer: any = null
@@ -11,6 +12,7 @@ let reconnectingTimer: any = null
 class Ws extends WebSocket{
     connectedStatus: boolean
     wsUrl: string
+    bus = new EventBus();
 
     constructor(url) {
         super(url);
@@ -61,7 +63,7 @@ class Ws extends WebSocket{
     }
 
     async handleMessage(data) {
-        console.log(data)
+        this.bus.emit("socketMsg", JSON.parse(data.data))
         // switch (mode){
         //     case WS_MODE.HEART_BEAT:
         //         this.connectedStatus = true

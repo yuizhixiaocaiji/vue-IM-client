@@ -19,9 +19,9 @@ export interface UserMsg{
   id: number //消息id
   userId: number//用户id
   dstId:number//发送用户id
-  cmd: number
   media: number
   content: string//发送的消息
+  isMine?: boolean//本消息是否属于我自己
 }
 
 export interface SendMsg{
