@@ -8,14 +8,20 @@
             <my-avatar src="ic_avatar_02"></my-avatar>
             <div class="list-content-holder">
               <span class="content-holder-name">{{store.state.login.name}}</span>
-              <span class="content-holder-msg">{{msg.content}}</span>
+              <div class="content-holder-msg" >
+                <span v-if="msg.media === 1">{{msg.content}}</span>
+                <img :src="msg.content" alt="" v-if="msg.media === 4">
+              </div>
             </div>
           </template>
           <template v-if="!msg.isMine">
             <my-avatar src="ic_avatar_03"></my-avatar>
             <div class="list-content-holder">
               <span class="content-holder-name">{{userToInfo.userName}}</span>
-              <span class="content-holder-msg">{{msg.content}}</span>
+              <div class="content-holder-msg" >
+                <span v-if="msg.media === 1">{{msg.content}}</span>
+                <img :src="msg.content" alt="" v-if="msg.media === 4">
+              </div>
             </div>
           </template>
         </li>

@@ -1,7 +1,22 @@
 <template>
   <el-footer>
     <section class="el-footer-icon">
-      <el-icon :size="20" color="#666"><CirclePlus /></el-icon>
+      <el-popover
+          placement="top"
+          :width="320"
+          trigger="click"
+      >
+        <template #reference>
+          <el-icon :size="20" color="#666"><CirclePlus /></el-icon>
+        </template>
+        <template #default>
+          <ul class="popover-face-list">
+            <li v-for="face of faceList" :key="face" @click="sendMsg(4, face)">
+              <img :src="face" alt="">
+            </li>
+          </ul>
+        </template>
+      </el-popover>
       <el-icon :size="20" color="#666"><Picture /></el-icon>
       <el-icon :size="20" color="#666"><Film /></el-icon>
       <el-icon :size="24" color="#666"><Postcard /></el-icon>
@@ -18,18 +33,34 @@
       />
     </section>
     <section class="el-footer-button">
-      <el-button :disabled="textarea===''" @click="sendMsg">发送</el-button>
+      <el-button :disabled="textarea===''" @click="sendMsg(1)">发送</el-button>
     </section>
   </el-footer>
 </template>
 
 <script setup lang="ts">
 import {CirclePlus, Film, FolderOpened, Microphone, Postcard} from "@element-plus/icons-vue";
-import {nextTick, reactive, ref} from "vue";
+import {reactive, ref} from "vue";
 import {UserMsg} from "@/type/global";
 import {useStore} from "vuex";
 import {ADD_USER_MESSAGE} from "@/store/modules/userMsg.ts";
 import {EventBus} from "@/utils";
+import face_2 from "@/assets/face/face_2.png";
+import face_3 from "@/assets/face/face_3.png";
+import face_4 from "@/assets/face/face_4.png";
+import face_5 from "@/assets/face/face_5.png";
+import face_6 from "@/assets/face/face_6.png";
+import face_7 from "@/assets/face/face_7.png";
+import face_8 from "@/assets/face/face_8.png";
+import face_9 from "@/assets/face/face_9.png";
+import face_10 from "@/assets/face/face_10.png";
+import face_11 from "@/assets/face/face_11.png";
+import face_12 from "@/assets/face/face_12.png";
+import face_13 from "@/assets/face/face_13.png";
+import face_14 from "@/assets/face/face_14.png";
+import face_15 from "@/assets/face/face_15.png";
+import face_16 from "@/assets/face/face_16.png";
+import face_17 from "@/assets/face/face_17.png";
 
 const bus = new EventBus()
 
@@ -41,22 +72,37 @@ const textarea = ref('')
 
 let msg = reactive({})
 
-const sendMsg = () => {
-  msg = createMsgContext()
+const faceList = ref([face_2,face_3,face_4,face_5,face_6,face_7,face_8,face_9,face_10,face_11,face_12,face_13,face_14,face_15,face_16,face_17])
+
+const sendMsg = (media,src?) => {
+  switch (media) {
+    case 1:
+      msg = createMsgContext(media)
+      textarea.value = ''
+      break
+    case 4:
+      msg = createMsgContext(media, src)
+  }
+
   store.dispatch("userMsg/" + ADD_USER_MESSAGE, msg)
   bus.emit('sendMsg', msg)
-  textarea.value = ''
 }
 
-const createMsgContext = () => {
+const createMsgContext = (media, src?) => {
   const msg: UserMsg= {
     id: store.state.userMsg.userMsg.length + 1,
     userId: store.state.login.id,
     dstId: props.userId ,
-    media: 1,
-    content: textarea.value
+    media: media,
+    content: ''
   }
-
+  switch (media){
+    case 1:
+      msg.content = textarea.value
+      break
+    case 4:
+      msg.content = src
+  }
   return msg
 }
 </script>
@@ -90,6 +136,20 @@ const createMsgContext = () => {
 
       .el-button{
         width: 100px;
+      }
+    }
+  }
+
+  .popover-face-list{
+    display: flex;
+    flex-wrap: wrap;
+
+    li{
+      padding: 5px;
+      cursor: pointer;
+      
+      &:hover{
+        background: #f4f4f4;
       }
     }
   }
