@@ -149,6 +149,12 @@ import {EventBus} from "@/utils";
           border-radius: 4px;
           font-size: 14px;
           color: #333;
+          max-height: 200px;
+          max-width: 200px;
+
+          img{
+            width: 100%;
+          }
         }
       }
     }

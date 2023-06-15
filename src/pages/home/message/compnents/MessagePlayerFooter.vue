@@ -17,7 +17,13 @@
           </ul>
         </template>
       </el-popover>
-      <el-icon :size="20" color="#666"><Picture /></el-icon>
+      <el-upload :show-file-list="false"
+                 style="display: flex; align-items: center"
+                 action="/api/attach/upload"
+                 :on-success="uploadSuccess"
+      >
+        <el-icon :size="20" color="#666"><Picture /></el-icon>
+      </el-upload>
       <el-icon :size="20" color="#666"><Film /></el-icon>
       <el-icon :size="24" color="#666"><Postcard /></el-icon>
       <el-icon :size="22" color="#666"><FolderOpened /></el-icon>
@@ -105,6 +111,16 @@ const createMsgContext = (media, src?) => {
   }
   return msg
 }
+
+/**
+ * 上传成功的回调
+ */
+const uploadSuccess = (response) => {
+  console.log(response)
+  const picUrl = (response['Data'] as string).replace(".", "http://localhost:8080")
+  sendMsg(4, picUrl)
+}
+
 </script>
 
 <style lang="less" scoped>
