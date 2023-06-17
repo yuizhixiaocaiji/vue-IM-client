@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import {CirclePlus, Film, FolderOpened, Microphone, Postcard} from "@element-plus/icons-vue";
+import { Film, FolderOpened, Microphone, Postcard} from "@element-plus/icons-vue";
 import {reactive, ref} from "vue";
 import {UserMsg} from "@/type/global";
 import {useStore} from "vuex";

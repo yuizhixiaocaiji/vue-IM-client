@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  violet:
+    image: ccr.ccs.tencentyun.com/yizhixiaocaiji/violet:latest
+    restart: always
+    ports:
+      - 3010:80

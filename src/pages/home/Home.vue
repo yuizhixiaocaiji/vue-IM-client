@@ -19,7 +19,7 @@
 import UserAsideBar from "./components/UserAsideBar.vue";
 import SearchBar from "../../components/SearchBar.vue";
 import { useRouter } from "vue-router";
-import {nextTick, onMounted, ref} from "vue";
+import { onMounted, ref} from "vue";
 import { getIMWsUrl} from "@/config";
 import {EventBus, Ws} from "@/utils";
 import { useStore} from "vuex";

@@ -3,7 +3,7 @@
     <section class="el-header-left">
       <MyAvatar src="ic_avatar_03" size="46"></MyAvatar>
       <div class="el-header-status">
-        <span class="header-status-name">{{name}}</span>
+        <span class="header-status-name">{{props.name}}</span>
         <span class="header-status-text">离线</span>
       </div>
     </section>
