@@ -1,0 +1,23 @@
+{
+  "id": "4126866",
+  "name": "vue-IM-client",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "即时通讯",
+  "glyphs": [
+    {
+      "icon_id": "2019064",
+      "name": "添加好友",
+      "font_class": "tianjiahaoyou",
+      "unicode": "e7aa",
+      "unicode_decimal": 59306
+    },
+    {
+      "icon_id": "77106",
+      "name": "表情",
+      "font_class": "biaoqing",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    }
+  ]
+}

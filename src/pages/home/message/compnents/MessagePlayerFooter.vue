@@ -7,7 +7,7 @@
           trigger="click"
       >
         <template #reference>
-          <el-icon :size="20" color="#666"><CirclePlus /></el-icon>
+          <i class="iconfont icon-biaoqing"></i>
         </template>
         <template #default>
           <ul class="popover-face-list">
@@ -136,6 +136,12 @@ const uploadSuccess = (response) => {
       margin-bottom: 5px;
 
       .el-icon{
+        margin-right: 10px;
+        cursor: pointer;
+      }
+
+      .icon-biaoqing{
+        font-size: 20px;
         margin-right: 10px;
         cursor: pointer;
       }

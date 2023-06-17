@@ -104,6 +104,13 @@ const fetchParams = async () => {
 }
 
 /**
+ * 同步好友列表
+ */
+bus.on("addFriend", (ok) => {
+  ok ? fetchParams() : ''
+})
+
+/**
  * 删除监听事件
  */
 

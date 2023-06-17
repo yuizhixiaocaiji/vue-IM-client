@@ -37,3 +37,15 @@ export const fetchUserFriends: Api["fetchUserFriends"] = async (params) => {
         });
   });
 };
+
+export const findFriendById: Api["findFriendById"] = async (params) => {
+    return new Promise((resolve, reject) => {
+        http.post("/api/contact/addFriend",qs.stringify(params))
+            .then((data: any) => {
+                resolve(data);
+            })
+            .catch((err: Error) => {
+                reject(err);
+            });
+    });
+}
