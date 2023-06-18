@@ -20,7 +20,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:8080",
+        target: "http://www.xuchengyu1212.cloud:31010/api",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
