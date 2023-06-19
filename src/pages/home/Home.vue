@@ -20,7 +20,7 @@ import UserAsideBar from "./components/UserAsideBar.vue";
 import SearchBar from "../../components/SearchBar.vue";
 import { useRouter } from "vue-router";
 import { onMounted, ref} from "vue";
-import {getIMOnlineWsUrl} from "@/config";
+import {getIMWsUrl} from "@/config";
 import {EventBus, Ws} from "@/utils";
 import { useStore} from "vuex";
 import {fetchUserFriends} from "@/services";
@@ -86,7 +86,7 @@ function changeMenu(menuName) {
  * 初始化websocket
  */
 const initWebsocket = async () => {
-  const wsUrl = getIMOnlineWsUrl()
+  const wsUrl = getIMWsUrl()
   ws = await Ws.create(wsUrl + "/chat?userId="+store.state.login.id + "&token=" + store.state.login.token)
 }
 

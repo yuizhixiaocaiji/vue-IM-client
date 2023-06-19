@@ -2,6 +2,7 @@ import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import {AXIOS_TIMEOUT} from "@/config";
 
 const request = axios.create({
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
   timeout: AXIOS_TIMEOUT,
 })
 

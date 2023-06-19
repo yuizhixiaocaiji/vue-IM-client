@@ -4,7 +4,7 @@ import qs from "qs"
 
 export const getUserParams: Api["getUserParams"] = async (values) => {
   return new Promise((resolve, reject) => {
-    http.post("/api/user/findUserByNameAndPwd",{},{params: JSON.parse(JSON.stringify(values))})
+    http.post("/user/findUserByNameAndPwd",{},{params: JSON.parse(JSON.stringify(values))})
       .then((data: any) => {
         resolve(data);
       })
@@ -16,7 +16,7 @@ export const getUserParams: Api["getUserParams"] = async (values) => {
 
 export const registerUser: Api["registerUser"] = async (values) => {
   return new Promise((resolve, reject) => {
-    http.get("/api/user/createUser",{params: JSON.parse(JSON.stringify(values))})
+    http.get("/user/createUser",{params: JSON.parse(JSON.stringify(values))})
       .then((data: any) => {
         resolve(data);
       })
@@ -28,7 +28,7 @@ export const registerUser: Api["registerUser"] = async (values) => {
 
 export const fetchUserFriends: Api["fetchUserFriends"] = async (params) => {
   return new Promise((resolve, reject) => {
-    http.post("/api/searchFriends",qs.stringify(params))
+    http.post("/searchFriends",qs.stringify(params))
         .then((data: any) => {
           resolve(data);
         })
@@ -40,7 +40,7 @@ export const fetchUserFriends: Api["fetchUserFriends"] = async (params) => {
 
 export const findFriendById: Api["findFriendById"] = async (params) => {
     return new Promise((resolve, reject) => {
-        http.post("/api/contact/addFriend",qs.stringify(params))
+        http.post("/contact/addFriend",qs.stringify(params))
             .then((data: any) => {
                 resolve(data);
             })

@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import login_bg from "@/assets/images/login_bg.png";
 import LoginFrom from "./components/LoginFrom.vue";
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 import { FormField, Itype } from "@/type/global";
 import { getUserParams, registerUser } from "@/services";
 import { useStore } from "vuex";
@@ -26,6 +26,7 @@ import { SET_USER_INFO } from "@/store/modules/login";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { useHistoryTravel } from "@/hooks/useHistoryTravel";
+import { IM_Online_Ws_URL} from "@/config";
 
 const store = useStore();
 
@@ -34,6 +35,11 @@ const router = useRouter();
 const loading = ref(false)
 
 const { current, back } = useHistoryTravel<Itype>("login");
+
+onMounted(() => {
+  localStorage.removeItem('IMWsUrl')
+  import.meta.env.VITE_OUTPUT_DIR === 'pro' ? localStorage.setItem('IMWsUrl', IM_Online_Ws_URL) : ''
+})
 
 const finish = async (values?: FormField | string) => {
   try {
