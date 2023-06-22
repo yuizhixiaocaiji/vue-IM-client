@@ -1,6 +1,21 @@
 <template>
   <article class="layout-aside-child">
-    <MyAvatar :src="'ic_avatar_02'" :size="36"></MyAvatar>
+    <el-popover
+        placement="right-start"
+        :width="230"
+        popper-style="padding: 0;"
+        :visible="isShowPop"
+    >
+      <template #reference>
+        <MyAvatar :src="'ic_avatar_02'" :size="36" @click="isShowPop = true"></MyAvatar>
+      </template>
+      <template #default>
+        <user-option-card @openUserInfo="isShowPop = false"></user-option-card>
+      </template>
+    </el-popover>
+
+    <user-popup-card :openMyMessage="!isShowPop"></user-popup-card>
+
     <ul class="layout-tool-tip">
       <li :class="msgIsActive" @click="$emit('changeMenu', 'message')">
         <el-icon size="18px" color="#999"><Comment /></el-icon
@@ -16,8 +31,10 @@
 
 <script setup>
 import MyAvatar from "@/components/MyAvatar.vue";
-import { computed } from "vue";
+import { computed,ref } from "vue";
 import {Comment, UserFilled} from "@element-plus/icons-vue";
+import UserOptionCard from "@/pages/home/components/UserOptionCard.vue";
+import UserPopupCard from "@/pages/home/components/UserPopupCard.vue";
 
 const props = defineProps(["classObjectName"]);
 
@@ -30,6 +47,9 @@ const msgIsActive = computed(() => {
 const catIsActive = computed(() => {
   return props.classObjectName === "contacts" ? "active" : "";
 });
+
+const isShowPop = ref(false)
+
 </script>
 
 <style lang="less" scoped>
