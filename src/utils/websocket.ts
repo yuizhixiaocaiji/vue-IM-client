@@ -1,24 +1,17 @@
 import {SendMsg} from "@/type/global";
 import {EventBus} from "@/utils/index.ts";
 
-let heartBeatTimeer: any = null
-let reconnectingTimer: any = null
-
-// const WS_MODE = {
-//     MESSAGE: "MESSAGE",
-//     HEART_BEAT: "HEART_BEAT",
-// }
-
 class Ws extends WebSocket{
-    connectedStatus: boolean
     wsUrl: string
     bus = new EventBus();
+    heartBeatTimeer: any = null
+    reconnectingTimer: any = null
+    wsReConnect
 
-    constructor(url) {
+    constructor(url, wsReConnect) {
         super(url);
-        this.connectedStatus = false
         this.wsUrl = url
-
+        this.wsReConnect = wsReConnect
         this.init()
     }
 
@@ -35,22 +28,20 @@ class Ws extends WebSocket{
 
     handleOpen(){
         console.log('---Client is connected---')
-        this.connectedStatus = true
-        // this.startHeartBeat()
+        this.startHeartBeat()
     }
 
     handleClose(){
         console.log('---Client is closed---')
-        this.connectedStatus = false
 
-        if(heartBeatTimeer){
-            clearInterval(heartBeatTimeer)
-            heartBeatTimeer = null
+        if(this.heartBeatTimeer){
+            clearInterval(this.heartBeatTimeer)
+            this.heartBeatTimeer = null
         }
 
-        if(reconnectingTimer){
-            clearTimeout(reconnectingTimer)
-            reconnectingTimer = null
+        if(this.reconnectingTimer){
+            clearTimeout(this.reconnectingTimer)
+            this.reconnectingTimer = null
         }
 
         this.reconnect()
@@ -58,65 +49,56 @@ class Ws extends WebSocket{
 
     handleError(e: any){
         console.log('---Client occured error---', e)
-        this.connectedStatus = false
         this.reconnect()
     }
 
     async handleMessage(data) {
-        this.bus.emit("socketMsg", JSON.parse(data.data))
-        // switch (mode){
-        //     case WS_MODE.HEART_BEAT:
-        //         this.connectedStatus = true
-        //         console.log("---HEART_BEAT---", msg)
-        //         break
-        //     case WS_MODE.MESSAGE:
-        //         console.log("---MESSAGE", msg)
-        //         break
-        //     default:
-        //         break
-        // }
+        switch (JSON.parse(data.data).Type){
+            case 3:
+                console.log("---HEART_BEAT---", JSON.parse(data.data).Content)
+                break
+            default:
+                this.bus.emit("socketMsg", JSON.parse(data.data))
+                break
+        }
     }
 
     startHeartBeat(){
-        // heartBeatTimeer = setInterval(() => {
-        //     this.sendMsg({
-        //         mode: WS_MODE.HEART_BEAT,
-        //         msg: "HEART_BEAT"
-        //     })
-        //     // this.waitForResponse()
-        // }, 4000)
+        this.heartBeatTimeer = setInterval(() => {
+            if(this.readyState === 1){
+                this.sendMsg({
+                    Type: 3,
+                    Media:1,
+                    Content: 'HEART_BEAT'
+                })
+            }else{
+                clearTimeout(this.heartBeatTimeer)
+                this.heartBeatTimeer = null
+            }
+
+            this.waitForResponse()
+        }, 4000)
     }
 
     reconnect(){
-        return new Promise(resolve => {
-            reconnectingTimer = setTimeout(() => {
-                resolve(Ws.create(this.wsUrl))
-            }, 3000)
-        })
+        this.reconnectingTimer = setTimeout(() => {
+            this.wsReConnect()
+        }, 3000)
     }
 
     waitForResponse(){
-        this.connectedStatus = false
 
         setTimeout(() => {
-            if(this.connectedStatus){
-                return this.startHeartBeat()
-            }
-
-            try {
-                this.close()
-            }catch (e){
-                console.log("---Client is closed---")
-            }
-        }, 2000)
+            this.close()
+        }, 60000)
     }
 
     sendMsg(data: SendMsg){
-        return this.send(JSON.stringify(data))
+        this.readyState === 1 && this.send(JSON.stringify(data))
     }
 
-    static create(url){
-        return new  Ws(url)
+    static create(url, wsReConnect){
+        return new  Ws(url, wsReConnect)
     }
 }
 

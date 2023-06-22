@@ -45,7 +45,7 @@ onMounted(() => {
   }else{
     classObjectName.value = <string>router.currentRoute.value.name
   }
-  initWebsocket()
+  wsConnect()
   fetchParams()
 })
 
@@ -67,6 +67,7 @@ bus.on('sendMsg',(msg: UserMsg) => {
  * 监听消息接收的事件
  */
 bus.on('socketMsg',(msg: SendMsg) => {
+  if(msg.Type === 3) return
   const recvMsg:UserMsg = {
     id: store.state.userMsg.userMsg.length + 1,
     userId: msg.userId,
@@ -82,12 +83,21 @@ function changeMenu(menuName) {
   router.push(`/home/${classObjectName.value}`);
 }
 
-/**
- * 初始化websocket
- */
-const initWebsocket = async () => {
+const wsConnect = async () => {
   const wsUrl = getIMWsUrl()
-  ws = await Ws.create(wsUrl + "/chat?userId="+store.state.login.id + "&token=" + store.state.login.token)
+  ws = Ws.create(wsUrl + "/chat?userId=" + store.state.login.id + "&token=" + store.state.login.token, wsReConnect)
+}
+
+const wsReConnect = () => {
+  if (!ws){
+    return wsConnect()
+  }
+
+  if(ws && ws.reconnectingTimer){
+    clearTimeout(ws.reconnectingTimer)
+    ws.reconnectingTimer = null
+    wsConnect()
+  }
 }
 
 /**
