@@ -14,7 +14,7 @@
       </template>
     </el-popover>
 
-    <user-popup-card :openMyMessage="!isShowPop"></user-popup-card>
+    <user-popup-card :openMyMessage="isOpenDialog"></user-popup-card>
 
     <ul class="layout-tool-tip">
       <li :class="msgIsActive" @click="$emit('changeMenu', 'message')">
@@ -35,6 +35,7 @@ import { computed,ref } from "vue";
 import {Comment, UserFilled} from "@element-plus/icons-vue";
 import UserOptionCard from "@/pages/home/components/UserOptionCard.vue";
 import UserPopupCard from "@/pages/home/components/UserPopupCard.vue";
+import {watch} from "vue-demi";
 
 const props = defineProps(["classObjectName"]);
 
@@ -49,6 +50,12 @@ const catIsActive = computed(() => {
 });
 
 const isShowPop = ref(false)
+
+const isOpenDialog = ref(false)
+
+watch(isShowPop, () => {
+  isOpenDialog.value = !isShowPop.value
+})
 
 </script>
 

@@ -17,7 +17,7 @@ import {ArrowRight} from "@element-plus/icons-vue";
 
 const store = useStore()
 
-const emit = defineEmits(["openUserInfo"])
+defineEmits(["openUserInfo"])
 </script>
 
 <style lang="less" scoped>
