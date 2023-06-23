@@ -65,6 +65,7 @@ const finish = async (values?: FormField | string) => {
       back();
     }
   } catch (e: any) {
+    loading.value = false
     ElMessage.error(e);
   }
 };

@@ -6,7 +6,15 @@ export type Api = {
   fetchUserFriends: (params: UserFriend) => Promise<UserFriendList>
   findFriendById: (params: UserFriendInfo) => Promise<AddFriendMsg>
   createCommunity: (params: CreateCommunity) => Promise<any>
+  loadCommunity: (params: LoadCommunity) => Promise<LoadCommunityData>
 };
+
+export interface DefaultPostRes{
+  Code: number
+  Data: any
+  Msg: string
+  Total: string
+}
 
 export interface UserInfo {
   ID: number;
@@ -47,4 +55,19 @@ export interface AddFriendMsg{
 export interface CreateCommunity{
   ownerId: number
   name: string
+}
+
+export interface LoadCommunity extends Omit<CreateCommunity, 'name'>{}
+
+export interface LoadCommunityData extends DefaultPostRes{
+  Rows: CommunityData[]
+}
+
+export interface CommunityData{
+  ID: number
+  Img: string
+  Name: string
+  OwnerId: number
+  CreatedAt: string
+  UpdatedAt: string
 }

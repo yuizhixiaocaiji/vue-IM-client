@@ -61,3 +61,15 @@ export const createCommunity: Api["createCommunity"] = async (params) => {
             });
     });
 }
+
+export const loadCommunity: Api["loadCommunity"] = async (params) => {
+    return new Promise((resolve, reject) => {
+        http.post("/contact/loadcommunity",qs.stringify(params))
+            .then((data: any) => {
+                resolve(data);
+            })
+            .catch((err: Error) => {
+                reject(err);
+            });
+    });
+}
