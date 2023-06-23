@@ -1,7 +1,7 @@
 <template>
   <el-main>
     <el-scrollbar style="padding-right: 15px" ref="myScrollbar">
-      <div class="el-main-tag">你们已经是好友了，开始聊天吧~</div>
+      <div class="el-main-tag" v-if="!userToInfo.isGroup">你们已经是好友了，开始聊天吧~</div>
       <ul class="el-main-list">
         <li v-for="msg of showMsg" :key="msg.id" :class="msg.isMine ? 'main-list-own' : 'main-list-cus'">
           <template v-if="msg.isMine">

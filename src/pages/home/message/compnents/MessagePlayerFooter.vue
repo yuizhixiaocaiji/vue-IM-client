@@ -72,7 +72,7 @@ const bus = new EventBus()
 
 const store = useStore()
 
-const props = defineProps(["userId"])
+const props = defineProps(["userToInfo"])
 
 const textarea = ref('')
 
@@ -98,7 +98,7 @@ const createMsgContext = (media, src?) => {
   const msg: UserMsg= {
     id: store.state.userMsg.userMsg.length + 1,
     userId: store.state.login.id,
-    dstId: props.userId ,
+    dstId: props.userToInfo.userId ,
     media: media,
     content: ''
   }

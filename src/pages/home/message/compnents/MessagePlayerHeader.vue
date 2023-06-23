@@ -1,10 +1,11 @@
 <template>
   <el-header>
     <section class="el-header-left">
-      <MyAvatar src="ic_avatar_03" size="46"></MyAvatar>
+      <MyAvatar src="ic_avatar_03" size="46" v-if="!userToInfo.isGroup"></MyAvatar>
+      <MyAvatar :src="my_group" size="46" v-if="userToInfo.isGroup"></MyAvatar>
       <div class="el-header-status">
-        <span class="header-status-name">{{props.name}}</span>
-        <span class="header-status-text">离线</span>
+        <span class="header-status-name">{{userToInfo.userName}}</span>
+        <span class="header-status-text" v-if="!userToInfo.isGroup">离线</span>
       </div>
     </section>
     <section class="el-header-right">
@@ -18,8 +19,9 @@
 <script setup lang="ts">
 import MyAvatar from "@/components/MyAvatar.vue";
 import {Document, Setting, User} from "@element-plus/icons-vue";
+import my_group from "@/assets/images/my_group.png"
 
-const props = defineProps(["name"])
+const props = defineProps(["userToInfo"])
 </script>
 
 <style lang="less" scoped>

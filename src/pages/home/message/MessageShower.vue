@@ -9,9 +9,9 @@
   <community-create-popup :is-open-popup="isOpenPop" @close-popup="isOpenPop = false"></community-create-popup>
 
   <el-container v-if="userMessage.userId !== 0">
-    <MessagePlayerHeader :name="userMessage.userName"></MessagePlayerHeader>
+    <MessagePlayerHeader :userToInfo="userMessage"></MessagePlayerHeader>
     <MessagePlayerContent :userToInfo="userMessage"></MessagePlayerContent>
-    <MessagePlayerFooter :userId="userMessage.userId"></MessagePlayerFooter>
+    <MessagePlayerFooter :userToInfo="userMessage"></MessagePlayerFooter>
   </el-container>
 </template>
 
@@ -21,7 +21,7 @@ import MessagePlayerHeader from "@/pages/home/message/compnents/MessagePlayerHea
 import MessagePlayerContent from "@/pages/home/message/compnents/MessagePlayerContent.vue";
 import MessagePlayerFooter from "@/pages/home/message/compnents/MessagePlayerFooter.vue";
 import CommunityCreatePopup from "@/pages/home/message/compnents/CommunityCreatePopup.vue";
-import {ref} from "vue";
+import {ref, watchEffect} from "vue";
 
 const props = defineProps(["userMessage"])
 

@@ -24,8 +24,8 @@ import {getIMWsUrl} from "@/config";
 import {EventBus, Ws} from "@/utils";
 import { useStore} from "vuex";
 import {fetchUserFriends} from "@/services";
-import {SET_USER_FRIENDS} from "@/store/modules/friendList.ts";
-import {SendMsg, UserMsg} from "@/type/global";
+import {SET_ONE_USER, SET_USER_FRIENDS} from "@/store/modules/friendList.ts";
+import {MessageUser, SendMsg, UserMsg} from "@/type/global";
 import {onUnmounted} from "vue-demi";
 import {ADD_USER_MESSAGE} from "@/store/modules/userMsg.ts";
 
@@ -110,7 +110,25 @@ const fetchParams = async () => {
   }
   const data = await fetchUserFriends(params)
   const { Rows } = data
-  await store.dispatch("friendList/" + SET_USER_FRIENDS, Rows)
+
+  const messageList: MessageUser[] = []
+  Rows.forEach(data => {
+    const messageUser: MessageUser = {
+      id: data.ID,
+      name: data.name,
+      isGroup: false
+    }
+    messageList.push(messageUser)
+  })
+  if(store.state.friendList.rows.length === 0) {
+    await store.dispatch("friendList/" + SET_USER_FRIENDS, messageList)
+  }else{
+    for (const item of messageList) {
+      if(store.state.friendList.rows.filter(val => val.id === item.id).length === 0){
+        await store.dispatch("friendList/" + SET_ONE_USER, item)
+      }
+    }
+  }
 }
 
 /**
@@ -118,6 +136,10 @@ const fetchParams = async () => {
  */
 bus.on("addFriend", (ok) => {
   ok ? fetchParams() : ''
+})
+
+bus.on("gotoMessage", () => {
+  changeMenu('message')
 })
 
 /**

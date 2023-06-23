@@ -2,11 +2,12 @@
   <el-aside width="340px">
     <UserList>
       <ul class="el-user-list" >
-        <li class="user-list-one" v-for="row in store.state.friendList.rows" :key="row.ID" @click="openMessagePlayer(row)" :class="userMessage.userId === row.ID ? 'active': ''">
-          <MyAvatar src="ic_avatar_03"></MyAvatar>
+        <li class="user-list-one" v-for="row in store.state.friendList.rows" :key="row.id" @click="openMessagePlayer(row)" :class="userMessage.userId === row.id && 'active'">
+          <MyAvatar src="ic_avatar_03" v-if="!row.isGroup"></MyAvatar>
+          <MyAvatar :src="my_group" v-if="row.isGroup"></MyAvatar>
           <div class="list-one-message">
             <span class="one-message-name">{{row.name}}</span>
-            <span class="one-message-content">你们已经是好友了,快开始聊天吧~</span>
+            <span class="one-message-content" v-if="!row.isGroup">你们已经是好友了,快开始聊天吧~</span>
           </div>
           <div class="list-one-date">2023年6月11日</div>
         </li>
@@ -24,17 +25,20 @@ import MessageShower from "./MessageShower.vue";
 import {useStore} from "vuex";
 import MyAvatar from "@/components/MyAvatar.vue";
 import {reactive} from "vue";
+import my_group from "@/assets/images/my_group.png"
 
 const store = useStore()
 
 const userMessage = reactive({
   userName: '',
-  userId: 0
+  userId: 0,
+  isGroup: false
 })//当前操作的user
 
 const openMessagePlayer = (row) => {
   userMessage.userName = row.name
-  userMessage.userId = row.ID
+  userMessage.userId = row.id
+  userMessage.isGroup = row.isGroup
 }
 </script>
 

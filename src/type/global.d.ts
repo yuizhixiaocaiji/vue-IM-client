@@ -31,3 +31,9 @@ export interface SendMsg{
   Media:number
   Content: string
 }
+
+export interface MessageUser{
+  id: number
+  name: string
+  isGroup: boolean
+}
