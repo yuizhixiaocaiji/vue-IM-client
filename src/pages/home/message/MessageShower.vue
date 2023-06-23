@@ -3,8 +3,10 @@
     <div class="content_bg_title">创建群聊</div>
     <div class="content_bg_sub">创建群组，立即开启在线办公</div>
     <img :src="home_bg" alt="">
-    <el-button class="content_bg_btn" type="primary">立即创建</el-button>
+    <el-button class="content_bg_btn" type="primary" @click="isOpenPop = true" >立即创建</el-button>
   </section>
+
+  <community-create-popup :is-open-popup="isOpenPop" @close-popup="isOpenPop = false"></community-create-popup>
 
   <el-container v-if="userMessage.userId !== 0">
     <MessagePlayerHeader :name="userMessage.userName"></MessagePlayerHeader>
@@ -15,16 +17,15 @@
 
 <script setup>
 import home_bg from "@/assets/images/home_bg.png";
-import {watch} from "vue";
 import MessagePlayerHeader from "@/pages/home/message/compnents/MessagePlayerHeader.vue";
 import MessagePlayerContent from "@/pages/home/message/compnents/MessagePlayerContent.vue";
 import MessagePlayerFooter from "@/pages/home/message/compnents/MessagePlayerFooter.vue";
+import CommunityCreatePopup from "@/pages/home/message/compnents/CommunityCreatePopup.vue";
+import {ref} from "vue";
 
 const props = defineProps(["userMessage"])
 
-watch(props.userMessage ,(newValue)=> {
-
-})
+const isOpenPop = ref(false)
 
 </script>
 

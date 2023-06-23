@@ -1,10 +1,11 @@
 import { FormField } from "./global";
 
 export type Api = {
-  getUserParams: (values?: FormField | string) => Promise<UserInfo>;
-  registerUser: (values?: FormField | string) => Promise<UserInfo>;
+  getUserParams: (values?: FormField | string) => Promise<UserInfo>
+  registerUser: (values?: FormField | string) => Promise<UserInfo>
   fetchUserFriends: (params: UserFriend) => Promise<UserFriendList>
-  findFriendById: (params: userFriendInfo) => Promise<AddFriendMsg>
+  findFriendById: (params: UserFriendInfo) => Promise<AddFriendMsg>
+  createCommunity: (params: CreateCommunity) => Promise<any>
 };
 
 export interface UserInfo {
@@ -31,7 +32,7 @@ export interface Rows{
   [key: string]: any
 }
 
-export interface userFriendInfo{
+export interface UserFriendInfo{
   userId: number
   targetId: number
 }
@@ -41,4 +42,9 @@ export interface AddFriendMsg{
   Data: number
   Msg: string
   [key: string] : any
+}
+
+export interface CreateCommunity{
+  ownerId: number
+  name: string
 }

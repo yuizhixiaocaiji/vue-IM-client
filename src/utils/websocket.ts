@@ -87,14 +87,19 @@ class Ws extends WebSocket{
     }
 
     waitForResponse(){
-
-        setTimeout(() => {
-            this.close()
-        }, 60000)
+        // setTimeout(() => {
+        //     this.close()
+        // }, 60000)
     }
 
     sendMsg(data: SendMsg){
-        this.readyState === 1 && this.send(JSON.stringify(data))
+        if(this.readyState === 1){
+            this.send(JSON.stringify(data))
+        }else{
+            setTimeout(() => {
+                this.send(JSON.stringify(data))
+            }, 3000)
+        }
     }
 
     static create(url, wsReConnect){

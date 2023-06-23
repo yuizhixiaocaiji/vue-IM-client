@@ -14,7 +14,9 @@ request.interceptors.response.use((res: AxiosResponse) => {
   if (res.data.code === -1) {
     return Promise.reject(res.data.message);
   }
-
+  if (res.data.Code === -1){
+    return Promise.reject(res.data.Msg);
+  }
   return res.data.data ? res.data.data : res.data;
 });
 
