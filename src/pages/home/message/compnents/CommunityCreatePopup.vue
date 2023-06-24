@@ -67,7 +67,7 @@ const submitForm = async () => {
     });
     dialogFormVisible.value = false
     form.name = ''
-  }catch (e) {
+  }catch (e:any) {
     ElMessage.error(e)
   }
 }

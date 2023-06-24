@@ -26,7 +26,7 @@ import new_group from "@/assets/images/new_group.png";
 import nomal_cons from "@/assets/images/nomal_cons.png";
 import {onMounted, ref} from "vue";
 import ContactsShower from "@/pages/home/contacts/ContactsShower.vue";
-import {ContactsMenu} from "@/type/keys.d.ts";
+import {ContactsMenu} from "@/type/keys";
 import {EventBus} from "@/utils";
 
 const bus = new EventBus()

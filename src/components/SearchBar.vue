@@ -105,7 +105,7 @@ const searchFriendOrGroup = async () => {
     }
     dialogVisible.value = false
     input.value = ''
-  }catch (e) {
+  }catch (e:any) {
     ElMessage.error(e)
   }
 }

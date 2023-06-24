@@ -15,18 +15,15 @@ import {EventBus} from "@/utils";
 import {ref} from "vue";
 import {ContactsMenu} from "@/type/keys";
 import {onUnmounted} from "vue-demi";
-import {SET_ONE_USER, SET_USER_FRIENDS} from "@/store/modules/friendList.ts";
+import {SET_ONE_USER} from "@/store/modules/friendList.ts";
 import {useStore} from "vuex";
-import {useRouter} from "vue-router";
 import {MessageUser} from "@/type/global";
 
-const props = defineProps(["dataList"])
+defineProps(["dataList"])
 
 const bus = new EventBus()
 
-const store = new useStore()
-
-const router = useRouter()
+const store = useStore()
 
 let activeMenu = ref<ContactsMenu>({
   title: '',

@@ -15,9 +15,9 @@ import {ref} from "vue";
 
 const bus = new EventBus()
 
-const store = new useStore()
+const store = useStore()
 
-const dataList = ref([])
+const dataList = ref<any[]>([])
 
 const fetchData = async (data) => {
   const {idx} = data

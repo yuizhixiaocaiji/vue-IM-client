@@ -21,7 +21,7 @@ import MyAvatar from "@/components/MyAvatar.vue";
 import {Document, Setting, User} from "@element-plus/icons-vue";
 import my_group from "@/assets/images/my_group.png"
 
-const props = defineProps(["userToInfo"])
+defineProps(["userToInfo"])
 </script>
 
 <style lang="less" scoped>
