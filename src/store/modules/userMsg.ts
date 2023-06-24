@@ -13,7 +13,7 @@ const state: Status = {
 
 const mutations = {
     [ADD_USER_MESSAGE](state: Status, newData: UserMsg){
-        state.userMsg.unshift(newData)
+        state.userMsg.push(newData)
     }
 }
 

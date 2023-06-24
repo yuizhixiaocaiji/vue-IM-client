@@ -1,5 +1,5 @@
 <template>
-  <div class="common-layout">
+  <div class="common-layout" @click="closePopup">
     <el-container class="common-layout-content">
       <el-header height="42px">
         <SearchBar></SearchBar>
@@ -48,6 +48,10 @@ onMounted(() => {
   wsConnect()
   fetchParams()
 })
+
+const closePopup = () => {
+  bus.emit("closePopup")
+}
 
 /**
  * 监听消息发送的事件

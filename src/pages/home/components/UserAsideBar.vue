@@ -7,10 +7,10 @@
         :visible="isShowPop"
     >
       <template #reference>
-        <MyAvatar :src="'ic_avatar_02'" :size="36" @click="isShowPop = true"></MyAvatar>
+        <MyAvatar :src="'ic_avatar_02'" :size="36" @click.stop="isShowPop = true"></MyAvatar>
       </template>
       <template #default>
-        <user-option-card @openUserInfo="isShowPop = false"></user-option-card>
+        <user-option-card @openUserInfo="isShowPop = false;isOpenDialog = true"></user-option-card>
       </template>
     </el-popover>
 
@@ -35,11 +35,20 @@ import { computed,ref } from "vue";
 import {Comment, UserFilled} from "@element-plus/icons-vue";
 import UserOptionCard from "@/pages/home/components/UserOptionCard.vue";
 import UserPopupCard from "@/pages/home/components/UserPopupCard.vue";
-import {watch} from "vue-demi";
+import {EventBus} from "@/utils/index";
+import {onUnmounted} from "vue-demi";
 
 const props = defineProps(["classObjectName"]);
 
 const emit = defineEmits(["changeMenu"]);
+
+const bus = new EventBus()
+
+const closePopup = () => {
+  isShowPop.value = false
+}
+
+bus.on("closePopup", closePopup)
 
 const msgIsActive = computed(() => {
   return props.classObjectName === "message" ? "active" : "";
@@ -53,8 +62,8 @@ const isShowPop = ref(false)
 
 const isOpenDialog = ref(false)
 
-watch(isShowPop, () => {
-  isOpenDialog.value = !isShowPop.value
+onUnmounted(() => {
+  bus.off("closePopup", closePopup)
 })
 
 </script>

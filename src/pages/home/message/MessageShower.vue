@@ -32,14 +32,18 @@ const store = useStore()
 
 const isOpenPop = ref(false)
 
+const isReadRedisMsg = ref<string[]>([])
+
 watch(props.userMessage, async () => {
   const apiParams: RedisMsg = {
     userIdA: store.state.login.id.toString(),
     userIdB: props.userMessage.userId.toString(),
   }
 
-  const data = await redisMsg(apiParams)
-  console.log(data)
+  if(isReadRedisMsg.value.filter(item => item === apiParams.userIdB).length <= 0){
+    isReadRedisMsg.value.push(apiParams.userIdB)
+    await redisMsg(apiParams)
+  }
 })
 
 </script>
