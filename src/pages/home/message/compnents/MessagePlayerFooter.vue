@@ -119,7 +119,7 @@ const createMsgContext = (media, src?) => {
  */
 const uploadSuccess = (response) => {
   console.log(response)
-  const picUrl = (response['Data'] as string).replace(".", "http://localhost:8080")
+  const picUrl = (response['Data'] as string).replace("./", import.meta.env.VITE_APP_BASE_URL)
   sendMsg(4, picUrl)
 }
 
