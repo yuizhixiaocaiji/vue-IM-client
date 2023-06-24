@@ -7,6 +7,8 @@ export type Api = {
   findFriendById: (params: UserFriendInfo) => Promise<AddFriendMsg>
   createCommunity: (params: CreateCommunity) => Promise<any>
   loadCommunity: (params: LoadCommunity) => Promise<LoadCommunityData>
+  jsonGroup: (params: UserGroupInfo) => Promise<any>
+  redisMsg: (params: RedisMsg) => Promise<any>
 };
 
 export interface DefaultPostRes{
@@ -45,6 +47,11 @@ export interface UserFriendInfo{
   targetId: number
 }
 
+export interface UserGroupInfo {
+  userId: number
+  comInfo: string
+}
+
 export interface AddFriendMsg{
   Code: number
   Data: number
@@ -70,4 +77,9 @@ export interface CommunityData{
   OwnerId: number
   CreatedAt: string
   UpdatedAt: string
+}
+
+export interface RedisMsg{
+  userIdA: string
+  userIdB: string
 }

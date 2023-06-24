@@ -77,7 +77,7 @@ class Ws extends WebSocket{
             }
 
             this.waitForResponse()
-        }, 4000)
+        }, 30000)
     }
 
     reconnect(){

@@ -100,6 +100,8 @@ const createMsgContext = (media, src?) => {
     userId: store.state.login.id,
     dstId: props.userToInfo.userId ,
     media: media,
+    type: props.userToInfo.isGroup ? 2 : 1,
+    createTime: new Date().getTime(),
     content: ''
   }
   switch (media){

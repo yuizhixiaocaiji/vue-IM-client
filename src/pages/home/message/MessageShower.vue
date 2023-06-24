@@ -15,17 +15,32 @@
   </el-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import home_bg from "@/assets/images/home_bg.png";
 import MessagePlayerHeader from "@/pages/home/message/compnents/MessagePlayerHeader.vue";
 import MessagePlayerContent from "@/pages/home/message/compnents/MessagePlayerContent.vue";
 import MessagePlayerFooter from "@/pages/home/message/compnents/MessagePlayerFooter.vue";
 import CommunityCreatePopup from "@/pages/home/message/compnents/CommunityCreatePopup.vue";
-import {ref, watchEffect} from "vue";
+import {ref, watch} from "vue";
+import {RedisMsg} from "@/type/api.js";
+import {useStore} from "vuex";
+import {redisMsg} from "@/services/index.js";
 
 const props = defineProps(["userMessage"])
 
+const store = useStore()
+
 const isOpenPop = ref(false)
+
+watch(props.userMessage, async () => {
+  const apiParams: RedisMsg = {
+    userIdA: store.state.login.id.toString(),
+    userIdB: props.userMessage.userId.toString(),
+  }
+
+  const data = await redisMsg(apiParams)
+  console.log(data)
+})
 
 </script>
 

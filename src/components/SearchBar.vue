@@ -19,20 +19,24 @@
           <i class="iconfont icon-tianjiahaoyou"></i>
           <span>添加好友</span>
         </li>
+        <li @click="openMenuDetail('add-group')">
+          <i class="iconfont icon-tianjiaqunzu"></i>
+          <span>添加群组</span>
+        </li>
       </ul>
     </template>
   </el-popover>
 
   <el-dialog
       v-model="dialogVisible"
-      title="添加好友"
+      :title="dialogType === 'add-friend' ? '添加好友': '添加群组'"
       width="30%"
   >
-    <el-input v-model="input" placeholder="请输入想要添加的用户id" clearable  />
+    <el-input v-model="input" :placeholder="dialogType === 'add-friend' ? '请输入想要添加的用户id': '请输入想要添加的群id或者名称'" clearable  />
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="searchFriend()">
+        <el-button type="primary" @click="searchFriendOrGroup">
           确认
         </el-button>
       </span>
@@ -43,8 +47,8 @@
 <script setup lang="ts">
 import {Plus, Search} from "@element-plus/icons-vue";
 import {ref} from "vue";
-import {findFriendById} from "@/services";
-import {userFriendInfo} from "@/type/api";
+import {findFriendById, jsonGroup} from "@/services";
+import {UserFriendInfo, UserGroupInfo} from "@/type/api";
 import {useStore} from "vuex";
 import {ElMessage} from "element-plus";
 import {EventBus} from "@/utils";
@@ -57,9 +61,15 @@ const store = useStore()
 
 const bus = new EventBus()
 
+const dialogType = ref('')
+
 const openMenuDetail = (type: string) => {
+  dialogType.value = type
   switch (type){
     case  'add-friend':
+      dialogVisible.value = true
+      break
+    case 'add-group':
       dialogVisible.value = true
       break
   }
@@ -68,25 +78,35 @@ const openMenuDetail = (type: string) => {
 /**
  * 查找好友
  */
-const searchFriend = async () => {
-  const userFriendInfo: userFriendInfo = {
-    userId: store.state.login.id,
-    targetId: Number(input.value)
-  }
- const data = await findFriendById(userFriendInfo)
-  if(data.Code === 0){
-    ElMessage({
-      message: data.Msg,
-      type: "success",
-    });
+const searchFriendOrGroup = async () => {
+  try {
+    if(dialogType.value === 'add-friend'){
+      const userFriendInfo: UserFriendInfo = {
+        userId: store.state.login.id,
+        targetId: Number(input.value)
+      }
+      const data = await findFriendById(userFriendInfo)
+      ElMessage({
+        message: data.Msg,
+        type: "success",
+      });
+      bus.emit("addFriend", true)
+    }else{
+      const userFriendInfo: UserGroupInfo = {
+        userId: store.state.login.id,
+        comInfo: input.value
+      }
+      const data = await jsonGroup(userFriendInfo)
+      console.log(data)
+      ElMessage({
+        message: data.Total,
+        type: "success",
+      });
+    }
     dialogVisible.value = false
     input.value = ''
-    bus.emit("addFriend", true)
-  }else{
-    ElMessage({
-      message: data.Msg,
-      type: "error",
-    });
+  }catch (e) {
+    ElMessage.error(e)
   }
 }
 </script>

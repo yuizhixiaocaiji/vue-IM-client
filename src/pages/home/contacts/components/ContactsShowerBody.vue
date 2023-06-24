@@ -48,7 +48,7 @@ const clickCommunity = async (Row) => {
     isGroup: true
   }
   const groupList = store.state.friendList.rows.filter(item => item.isGroup === true)
-  if(groupList.length ===0 || !!groupList.find(val => val.ID === messageUser.id)){
+  if(groupList.length ===0 || !groupList.find(val => val.id === messageUser.id)){
     await store.dispatch("friendList/" + SET_ONE_USER, messageUser)
   }
   bus.emit("gotoMessage")

@@ -73,3 +73,27 @@ export const loadCommunity: Api["loadCommunity"] = async (params) => {
             });
     });
 }
+
+export const jsonGroup: Api["jsonGroup"] = async (params) => {
+    return new Promise((resolve, reject) => {
+        http.post("/contact/joinGroup",qs.stringify(params))
+            .then((data: any) => {
+                resolve(data);
+            })
+            .catch((err: Error) => {
+                reject(err);
+            });
+    });
+}
+
+export const redisMsg: Api["redisMsg"] = async (params) => {
+    return new Promise((resolve, reject) => {
+        http.post("/contact/redisMsg",qs.stringify(params))
+            .then((data: any) => {
+                resolve(data);
+            })
+            .catch((err: Error) => {
+                reject(err);
+            });
+    });
+}

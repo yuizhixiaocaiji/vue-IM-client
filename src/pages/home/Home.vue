@@ -55,10 +55,11 @@ onMounted(() => {
 bus.on('sendMsg',(msg: UserMsg) => {
   const sendMsg: SendMsg = {
     TargetId: msg.dstId,
-    userId: msg.userId,
-    Type: 1,
+    UserId: msg.userId,
+    Type: msg.type,
     Media: msg.media,
-    Content: msg.content
+    Content: msg.content,
+    CreateTime: msg.createTime
   }
   ws.sendMsg(sendMsg)
 })
@@ -69,10 +70,12 @@ bus.on('sendMsg',(msg: UserMsg) => {
 bus.on('socketMsg',(msg: SendMsg) => {
   if(msg.Type === 3) return
   const recvMsg:UserMsg = {
+    createTime: msg.CreateTime,
     id: store.state.userMsg.userMsg.length + 1,
-    userId: msg.userId,
+    userId: msg.UserId,
     dstId: msg.TargetId,
     media: msg.Media,
+    type: msg.Type,
     content: msg.Content
   }
   store.dispatch("userMsg/" + ADD_USER_MESSAGE, recvMsg)
