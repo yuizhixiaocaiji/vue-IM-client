@@ -25,6 +25,7 @@ import {ref, watch} from "vue";
 import {RedisMsg} from "@/type/api.js";
 import {useStore} from "vuex";
 import {redisMsg} from "@/services/index.js";
+import {ADD_REDIS_ID} from "@/store/modules/userMsg.ts";
 
 const props = defineProps(["userMessage"])
 
@@ -32,16 +33,14 @@ const store = useStore()
 
 const isOpenPop = ref(false)
 
-const isReadRedisMsg = ref<string[]>([])
-
 watch(props.userMessage, async () => {
   const apiParams: RedisMsg = {
     userIdA: store.state.login.id.toString(),
     userIdB: props.userMessage.userId.toString(),
   }
 
-  if(isReadRedisMsg.value.filter(item => item === apiParams.userIdB).length <= 0){
-    isReadRedisMsg.value.push(apiParams.userIdB)
+  if(store.state.userMsg.isReadRedisMsg.filter(item => item === apiParams.userIdB).length <= 0){
+    await store.dispatch("userMsg/" + ADD_REDIS_ID, apiParams.userIdB)
     await redisMsg(apiParams)
   }
 })
